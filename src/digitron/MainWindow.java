@@ -1,3 +1,4 @@
+package digitron;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,6 +9,11 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.Insets;
+import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
@@ -47,13 +53,33 @@ public class MainWindow {
 		frame.getContentPane().setLayout(null);
 		
 		txtEkran = new JTextField();
+		txtEkran.setText("0");
+		txtEkran.addKeyListener(new KeyAdapter() 
+		{
+			@Override
+			public void keyTyped(KeyEvent arg0) 
+			{
+					InternaLogika.procesirajUnos(arg0.getKeyChar());
+					osveziPrikaz();
+					arg0.consume();
+			}
+		});
+		txtEkran.setBackground(Color.BLACK);
+		txtEkran.setForeground(Color.GREEN);
 		txtEkran.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtEkran.setFont(new Font("Tahoma", Font.PLAIN, 30));
 		txtEkran.setBounds(10, 11, 386, 50);
 		frame.getContentPane().add(txtEkran);
 		txtEkran.setColumns(10);
-		
 		JButton button = new JButton("0");
+		button.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				InternaLogika.procesirajUnos('0');
+				osveziPrikaz();
+			}
+		});
 		button.setBounds(10, 289, 89, 23);
 		frame.getContentPane().add(button);
 		
@@ -74,6 +100,14 @@ public class MainWindow {
 		frame.getContentPane().add(button_4);
 		
 		JButton button_5 = new JButton("5");
+		button_5.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{	
+				InternaLogika.procesirajUnos('5');
+				osveziPrikaz();
+			}
+		});
 		button_5.setBounds(109, 221, 89, 23);
 		frame.getContentPane().add(button_5);
 		
@@ -98,6 +132,14 @@ public class MainWindow {
 		frame.getContentPane().add(btnC);
 		
 		JButton btnCe = new JButton("CE");
+		btnCe.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				InternaLogika.ocisti(false);
+				osveziPrikaz();
+			}
+		});
 		btnCe.setBounds(109, 72, 89, 23);
 		frame.getContentPane().add(btnCe);
 		
@@ -152,5 +194,10 @@ public class MainWindow {
 		JButton button_17 = new JButton(")");
 		button_17.setBounds(260, 153, 42, 23);
 		frame.getContentPane().add(button_17);
+	}
+	
+	public void osveziPrikaz()
+	{
+		txtEkran.setText(String.valueOf(InternaLogika.unos));
 	}
 }
