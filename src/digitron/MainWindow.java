@@ -84,18 +84,42 @@ public class MainWindow {
 		frame.getContentPane().add(button);
 		
 		JButton button_1 = new JButton("1");
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('1');
+				osveziPrikaz();
+			}
+		});
 		button_1.setBounds(10, 255, 89, 23);
 		frame.getContentPane().add(button_1);
 		
 		JButton button_2 = new JButton("2");
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('2');
+				osveziPrikaz();
+			}
+		});
 		button_2.setBounds(109, 255, 89, 23);
 		frame.getContentPane().add(button_2);
 		
 		JButton button_3 = new JButton("3");
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('3');
+				osveziPrikaz();
+			}
+		});
 		button_3.setBounds(208, 255, 89, 23);
 		frame.getContentPane().add(button_3);
 		
 		JButton button_4 = new JButton("4");
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('4');
+				osveziPrikaz();
+			}
+		});
 		button_4.setBounds(10, 221, 89, 23);
 		frame.getContentPane().add(button_4);
 		
@@ -112,18 +136,43 @@ public class MainWindow {
 		frame.getContentPane().add(button_5);
 		
 		JButton button_6 = new JButton("6");
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('6');
+				osveziPrikaz();
+			}
+		});
 		button_6.setBounds(208, 221, 89, 23);
 		frame.getContentPane().add(button_6);
 		
 		JButton button_7 = new JButton("7");
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('7');
+				osveziPrikaz();
+			}
+		});
 		button_7.setBounds(10, 187, 89, 23);
 		frame.getContentPane().add(button_7);
 		
 		JButton button_8 = new JButton("8");
+		button_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InternaLogika.procesirajUnos('8');
+				osveziPrikaz();
+			}
+		});
 		button_8.setBounds(109, 187, 89, 23);
 		frame.getContentPane().add(button_8);
 		
 		JButton button_9 = new JButton("9");
+		button_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+					InternaLogika.procesirajUnos('9');
+					osveziPrikaz();
+			}
+		});
 		button_9.setBounds(208, 187, 89, 23);
 		frame.getContentPane().add(button_9);
 		
