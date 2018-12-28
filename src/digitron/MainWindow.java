@@ -221,6 +221,13 @@ public class MainWindow {
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton button_12 = new JButton("+");
+		button_12.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				InternaLogika.procesirajUnos('+');
+				osveziPrikaz();
+			}
+		});
 		button_12.setBounds(307, 255, 89, 23);
 		frame.getContentPane().add(button_12);
 		
@@ -247,6 +254,9 @@ public class MainWindow {
 	
 	public void osveziPrikaz()
 	{
-		txtEkran.setText(String.valueOf(InternaLogika.unos));
+		if (InternaLogika.unos.peek() != 0)
+		{
+			txtEkran.setText(String.valueOf(InternaLogika.unos.peek()));
+		}
 	}
 }

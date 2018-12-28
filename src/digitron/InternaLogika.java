@@ -1,28 +1,44 @@
 package digitron;
 
+import java.util.Stack;
+
 public class InternaLogika 
 {
-	static long unos; 
+	static Stack<Long> unos = new Stack<Long>(); 
 	
 	public static void procesirajUnos(char unos)
 	{
 		try
 		{
-			int broj = Integer.parseInt(String.valueOf(unos));
-			if (InternaLogika.unos == 0)
+			long broj = Integer.parseInt(String.valueOf(unos));
+			if (InternaLogika.unos.isEmpty())
 			{
-				InternaLogika.unos = broj;
+				InternaLogika.unos.push(broj);
+			} else if (InternaLogika.unos.peek() == 0)
+			{
+				InternaLogika.unos.pop();
+				InternaLogika.unos.push(broj);
 			} else
 			{
-				if (String.valueOf(InternaLogika.unos).length() <= 15)
+				if (String.valueOf(InternaLogika.unos.peek()).length() <= 15)
 				{
-					InternaLogika.unos = InternaLogika.unos * 10 + broj;
+					InternaLogika.unos.push(InternaLogika.unos.pop() * 10 + broj);
 				}
 			}
 			
 		} catch (NumberFormatException e) 
 		{
-			return;
+			if (unos == '+')
+			{
+				if (InternaLogika.unos.size() == 1)
+				{
+					InternaLogika.unos.push((long)0);
+				} else
+				{
+					InternaLogika.unos.push(InternaLogika.unos.pop() + 
+							                InternaLogika.unos.pop());
+				}
+			}
 		}
 	}
 	
@@ -33,7 +49,8 @@ public class InternaLogika
 			//Ovo jos nemamo ideje
 		} else
 		{
-			InternaLogika.unos = 0;
+			InternaLogika.unos.pop();
+			InternaLogika.unos.push((long)0);
 		}
 	}
 }
