@@ -31,60 +31,53 @@ import java.util.Stack;
 
 public class InternaLogika 
 {
-	static Stack<Long> unos = new Stack<Long>(); //Stack u koji cemo da unosimo brojeve
-	static char zadnjaOperacija = '0'; //Treba nam da znamo sta je bila zadnja pritisnuta operacija ako korisnik pritisne =
-	static int broj; //Stanje za ulaz 
+	static Stack<Long> unos = new Stack<Long>(); 
+	static char zadnjaOperacija = '0';
+	static int broj; 
 
 	public static String procesirajUnos(char unos)
 	{
 		try
 		{
-			broj = Integer.parseInt(String.valueOf(unos)); //Pokusavamo da parsiramo simbol koji smo dobili kao broj
+			broj = Integer.parseInt(String.valueOf(unos)); 
 
-			if (InternaLogika.unos.isEmpty()) //Ako smo uspeli, proverimo da li imamo vec nesto u steku
+			if (InternaLogika.unos.isEmpty()) 
 			{
-				InternaLogika.unos.push((long)broj); //Ako nemamo, samo unosimo direktno broj koji smo dobili
+				InternaLogika.unos.push((long)broj); 
 			} else
 			{
-				InternaLogika.unos.push(InternaLogika.unos.pop()*10 + broj); //Ako nije prazan, onda vadimo zadnji broj sa stacka, pomeramo ga na desetine i dodajemo novi. Pa, ako je
-				//bio broj 5 na stacku i korisnik kuca 2 dobijamo 5 * 10 + 2 = 52 :) 
+				InternaLogika.unos.push(InternaLogika.unos.pop()*10 + broj);
 			}
-			return String.valueOf(InternaLogika.unos.peek()); //Vracamo zadnju vrednost sa stacka da bi se prikazala na ekranu naseg digitrona
+			return String.valueOf(InternaLogika.unos.peek()); 
 		} catch (NumberFormatException e)
 		{
-			String izlaz = "0"; //Ako nismo uspeli da parsiramo broj u liniji 42 onda dolazimo ovde. Pripremamo nesto da posaljemo nazad za ekran, za svaki slucaj stavimo odmah 0 ako se bas nista ne dogodi
-			//Npr, ako korisnik odmah pri pokretanju programa pritisne + apsolutno nista ne radimo od ovog koda dole.
+			String izlaz = "0"; 
 			if (!InternaLogika.unos.isEmpty())
 			{
-				switch (unos) //Proveravamo sta je unos
+				switch (unos) 
 				{
 				case '+': 
-					zadnjaOperacija = '+'; //Postavljamo informaciju o operaciji koju radimo
-					if (InternaLogika.unos.size() < 2) //Imamo li dva broja za sabiranje na stacku?
+					zadnjaOperacija = '+'; 
+					if (InternaLogika.unos.size() < 2) 
 					{
-						izlaz = String.valueOf(InternaLogika.unos.peek()); //Ako nemamo, samo ostavljamo taj jedan broj koji imamo za prikaz
+						izlaz = String.valueOf(InternaLogika.unos.peek()); 
 					} else
 					{
-						InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop()); //U slucaju da imamo dva broja radimo tri stvari u jednoj liniji
-						//Npr ako na stacku imamo 3 i 2, prvo ce se izvrsiti popovi tako da cemo imati
-						//InternaLogika.unos.push(3 + 2); i posto pop() uklanja vrednost sa stacka, stack ce da bude prazan
-						//Zatim ce push samo da gurne zbir nazad na stack
-						izlaz = String.valueOf(InternaLogika.unos.peek());  //Za ekran samo jos pogledamo sta nam je upravo dobijeni zbir
+						InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop());
+						izlaz = String.valueOf(InternaLogika.unos.peek());  
 					}
-					InternaLogika.unos.push((long)0); //Zavrsili sabiranje ili ne, ako smo pritisnuli + moramo da predejmo na novi broj
-					//Nas program uvek radi sa zadnjim brojem na stacku. Kada hocemo da unesemo, na primer 23 + 5. Mi kada kucamo 2 to postaje prvi broj na stacku. Kada kucamo 3 po formuli
-					//na liniji 49 dobijamo 2*10 + 3 tj. 23. Zatim, pritisnemo + i u tom momentu guramo 0 na stack. Pa na stacku imamo 23 i 0. Zatim unesemo 5, pa imamo 0 * 10 + 5 tj 5 :)
+					InternaLogika.unos.push((long)0); 
 					break;
 				case '=':
-					if (zadnjaOperacija != '0') //Proveravamo je li uposte neka operacija pritisnuta
+					if (zadnjaOperacija != '0') 
 					{
-						switch (zadnjaOperacija)  //Ako jeste, gledamo koja je
+						switch (zadnjaOperacija) 
 						{
 						case '+':
-							if (InternaLogika.unos.size() == 2) //Proveravamo imamo li dovoljno brojeva za racunanje
+							if (InternaLogika.unos.size() == 2) 
 							{
 
-								InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop()); //Racunamo
+								InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop()); 
 							} 
 							izlaz = String.valueOf(InternaLogika.unos.peek());
 							InternaLogika.unos.push((long)0); 
@@ -105,11 +98,11 @@ public class InternaLogika
 		{
 			if (sve)
 			{
-				InternaLogika.unos.clear(); //Ako cistimo sve brisemo skroz stack i nuliramo zadnju operaciju
+				InternaLogika.unos.clear(); 
 				InternaLogika.zadnjaOperacija = '0';
 			} else
 			{
-				InternaLogika.unos.pop(); //Ako brisemo samo zadnju gresku jedan pop() to resi i samo postavimo nulu na mesto te vrednosti
+				InternaLogika.unos.pop(); 
 				InternaLogika.unos.push((long)0);
 			}
 		}
