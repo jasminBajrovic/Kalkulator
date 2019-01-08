@@ -243,14 +243,32 @@ public class MainWindow {
 		frame.getContentPane().add(button_sab);
 
 		JButton button_min = new JButton("-");
+		button_min.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				txtEkran.setText(InternaLogika.procesirajUnos('-'));
+			}
+		});
 		button_min.setBounds(307, 221, 89, 23);
 		frame.getContentPane().add(button_min);
 
 		JButton button_put = new JButton("*");
+		button_put.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				txtEkran.setText(InternaLogika.procesirajUnos('*'));
+			}
+		});
 		button_put.setBounds(307, 187, 89, 23);
 		frame.getContentPane().add(button_put);
 
 		JButton button_pod = new JButton("/");
+		button_pod.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				txtEkran.setText(InternaLogika.procesirajUnos('/'));
+			}
+		});
 		button_pod.setBounds(307, 153, 89, 23);
 		frame.getContentPane().add(button_pod);
 

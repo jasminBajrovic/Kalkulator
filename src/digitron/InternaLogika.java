@@ -6,9 +6,6 @@ import java.util.Stack;
 /*
  * ZADACI
  * 
- * Dodati ostale operacije 
- *        --Obratite paznju kod oduzimanja i deljenja. Nacin na koji radimo obrne redosled operanada. Ako smo uneli 23 + 2, 2 je zadnji element na stacku pa kada uradimo pop() + pop() mi, u stvari racunamo 2 + 23
- *          Nije problem kod sabiranja i mnozenja, ali za druge dve operacije to mora drugacije. Moj predolg je da u jednu promenljivu uradite prvi pop() pa onda pop() - promenljiva da bi redosled bio u redu
  * Dodati memoriju
  *        --Trebace nam jos jedno stanje u klasi, koje ce drzati vrednost. Kada korisnik pritisne M+ dodajemo sta god da je na displeju (sto ce da bude i zadnji element u steku) na to stanje. Mozemo koristit peek() da ne sklonimo vrednost sa
  *        stacka. M- ce, naravno da oduzme. MR cita vrednost (jednostavan predlog pop() da sklonimo sta je bilo zadnje na stacku pa push() da stavimo novu vrednost). MC je jednostavno stavi na 0
@@ -25,15 +22,17 @@ import java.util.Stack;
  *       Za prvi broj iza tacke 10 na minus prvu, zatim na minus drugu i tako dalje. Nacin na koji bih ja ovo resio je da bi imao stanje koje mi kaze da li sam iza zareza, recimo neki int koji je na 0 kada smo sa leve strane zareza. Kada
  *       trebamo da predjemo na desnu, umanjimo ga i pre no sto racunamo nas novi broj na liniji 49 proverimo je li to stanje manje od nule. Ako jeste onda koristimo ovu drugu forumulu i taman mozemo da korisitimo to stanje jer ce ono biti 
  *       -1 za prvu cifru, pa dignemo 10 na njega (Math.pow(10, nekoStanje)) i umanjimo ga opet. Kada korisnik pritisne neku operaciju ili = i tome slicno samo ga stavimo ponovo na 0 :)  
+
  */
 
 
 
 public class InternaLogika 
 {
-	static Stack<Long> unos = new Stack<Long>(); 
-	static char zadnjaOperacija = '0';
-	static int broj; 
+	static Stack<Double> unos = new Stack<Double>();
+	static Stack<String> operacije = new Stack<String>();
+	static int broj;
+	static double zadnjiClan; 
 
 	public static String procesirajUnos(char unos)
 	{
@@ -43,54 +42,99 @@ public class InternaLogika
 
 			if (InternaLogika.unos.isEmpty()) 
 			{
-				InternaLogika.unos.push((long)broj); 
+				InternaLogika.unos.push((double)broj); 
 			} else
 			{
 				InternaLogika.unos.push(InternaLogika.unos.pop()*10 + broj);
 			}
-			return String.valueOf(InternaLogika.unos.peek()); 
+			return ukloniNule(String.valueOf(InternaLogika.unos.peek())); 
 		} catch (NumberFormatException e)
 		{
 			String izlaz = "0"; 
 			if (!InternaLogika.unos.isEmpty())
 			{
-				switch (unos) 
+				if (unos == '=')
 				{
-				case '+': 
-					zadnjaOperacija = '+'; 
+					if (!InternaLogika.operacije.isEmpty()) 
+					{
+						if (InternaLogika.zadnjiClan == 0)
+						{
+							InternaLogika.zadnjiClan = InternaLogika.unos.peek();
+						} else
+						{
+							InternaLogika.unos.push(zadnjiClan);
+						}
+						InternaLogika.izvrsiOperaciju(InternaLogika.operacije.peek());
+						izlaz = String.valueOf(InternaLogika.unos.peek());
+					}
+				} else
+				{
+					InternaLogika.zadnjiClan = 0;
+					InternaLogika.operacije.push(String.valueOf(unos));
 					if (InternaLogika.unos.size() < 2) 
 					{
 						izlaz = String.valueOf(InternaLogika.unos.peek()); 
 					} else
 					{
-						InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop());
-						izlaz = String.valueOf(InternaLogika.unos.peek());  
-					}
-					InternaLogika.unos.push((long)0); 
-					break;
-				case '=':
-					if (zadnjaOperacija != '0') 
-					{
-						switch (zadnjaOperacija) 
+						int indeksOperacije;
+						if (InternaLogika.operacije.size() > 1)
 						{
-						case '+':
-							if (InternaLogika.unos.size() == 2) 
-							{
-
-								InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop()); 
-							} 
-							izlaz = String.valueOf(InternaLogika.unos.peek());
-							InternaLogika.unos.push((long)0); 
-							break;
+							indeksOperacije = operacije.size() - 2;
+						} else
+						{
+							indeksOperacije = operacije.size() - 1;
 						}
-						break;
+						InternaLogika.izvrsiOperaciju(InternaLogika.operacije.get(indeksOperacije));
+						InternaLogika.operacije.remove(indeksOperacije);
+						izlaz = String.valueOf(InternaLogika.unos.peek());
 					}
+					InternaLogika.unos.push((double)0);
 				}
-
-			} 
-			return izlaz;
+			}
+			return ukloniNule(izlaz);
 		}
 	}
+
+	public static void izvrsiOperaciju(String op)
+	{
+		double drugi;
+		switch (op)
+		{
+		case "+": 
+			InternaLogika.unos.push(InternaLogika.unos.pop() + InternaLogika.unos.pop());  
+			break;
+		case "*":
+			InternaLogika.unos.push(InternaLogika.unos.pop() * InternaLogika.unos.pop());
+			break;
+		case "-":
+			drugi = InternaLogika.unos.pop();
+			InternaLogika.unos.push(InternaLogika.unos.pop() - drugi);
+			break;
+		case "/":
+			drugi = InternaLogika.unos.pop();
+			InternaLogika.unos.push(InternaLogika.unos.pop() / drugi);
+			break;
+		}
+	}
+	public static String ukloniNule(String broj)
+	{
+		while (broj.contains("."))
+		{
+			if (broj.endsWith("0"))
+			{
+
+				broj = broj.substring(0, broj.length()-2); 
+			}else if (broj.endsWith("."))
+			{
+				broj = broj.substring(0, broj.length()-2);
+			} else
+			{
+				return broj;
+			}
+		}
+		return broj;
+	}
+
 
 	public static String ocisti(boolean sve)
 	{
@@ -99,11 +143,11 @@ public class InternaLogika
 			if (sve)
 			{
 				InternaLogika.unos.clear(); 
-				InternaLogika.zadnjaOperacija = '0';
+				InternaLogika.operacije.clear();
 			} else
 			{
 				InternaLogika.unos.pop(); 
-				InternaLogika.unos.push((long)0);
+				InternaLogika.unos.push((double)0);
 			}
 		}
 		return "0";
