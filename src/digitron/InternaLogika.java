@@ -26,7 +26,6 @@ import java.util.Stack;
  */
 
 
-
 public class InternaLogika 
 {
 	static Stack<Double> unos = new Stack<Double>();
